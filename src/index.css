@@ -47,6 +47,11 @@ P{
   font-weight: 400;
 }
 
+select{
+  cursor: pointer;
+}
+
+
 section{
   width: var(--body-width);
   display: flex;
@@ -104,7 +109,6 @@ article p{
   font-family: 'Roboto', sans-serif;
   padding: 10px;
   border: none;
-  margin-bottom: 10px;
   color: #4c5d65;
   outline: none;
   resize: vertical;
@@ -121,13 +125,14 @@ textarea{
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   margin-bottom: 5px;
+  margin-top: 10px;
 }
 
 .add-new-post-area button{
   background-color: #043430;
   color: white;
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 15px;
   cursor: pointer;
   outline: none;
   border: none;
@@ -197,6 +202,15 @@ textarea{
   margin-bottom: -6px;
 }
 
+
+.error{
+  color: #f5f5f5;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  text-align: center;
+  background-color: red;
+  padding: 5px 0;
+}
 
 
 
