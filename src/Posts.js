@@ -1,37 +1,39 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { postsSelector } from "./states/Posts";
-import { likePost } from "./states/Posts";
-import moment from "moment";
-import PostAuthor from "./PostAuthor";
+import {
+  postsSelector,
+  getPostsStatus,
+  getPostsError,
+  fetchPosts,
+} from "./states/Posts";
+import Post from "./Post";
 
 const Posts = () => {
-  const posts = useSelector(postsSelector);
   const dispatch = useDispatch();
 
-  const orderedPosts = posts
-    .slice()
-    .sort((a, b) => b.date.localeCompare(a.date));
+  const posts = useSelector(postsSelector);
+  const postsStatus = useSelector(getPostsStatus);
+  const postsError = useSelector(getPostsError);
 
-  console.log(orderedPosts);
+  useEffect(() => {
+    if (postsStatus === "idle") {
+      dispatch(fetchPosts());
+    }
+  }, [dispatch, postsStatus]);
 
-  const renderPosts = orderedPosts.map((post) => (
-    <article key={post.id}>
-      <div>
-        <h2>{post.title}</h2>
-        <p>{post.body}</p>
-      </div>
-      <div className="post-meta">
-        <PostAuthor userId={post.userId} />
-        <span className="post-date">{moment(post.date).fromNow()}</span>
-        <button className="like" onClick={() => dispatch(likePost(post.id))}>
-          <span class="material-symbols-outlined">arrow_drop_up</span>
-          {post.likesCount}
-        </button>
-      </div>
-    </article>
-  ));
+  let content;
+  if (postsStatus === "loading") {
+    content = <div>Loading...</div>;
+  } else if (postsStatus === "failed") {
+    content = <div>Error: {postsError}</div>;
+  } else if (postsStatus === "succeeded") {
+    const orderedPosts = posts
+      .slice()
+      .sort((a, b) => b.date.localeCompare(a.date));
+    content = orderedPosts.map((post) => <Post key={post.id} post={post} />);
+  }
 
-  return <section className="post">{renderPosts}</section>;
+  return <section className="post">{content}</section>;
 };
 
 export default Posts;

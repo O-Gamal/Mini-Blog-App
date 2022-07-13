@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost } from "./states/Posts";
+import { addNewPost } from "./states/Posts";
 import { usersSelector } from "./states/Users";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
@@ -21,8 +21,20 @@ const validattionSchema = yup.object({
 const AddPost = () => {
   const dispatch = useDispatch();
 
+  const [addReqStatus, setAddReqStatus] = useState("idle");
+
   const onSubmit = (values) => {
-    dispatch(addPost(values.title, values.body, values.userId));
+    const canSave = addReqStatus === "idle";
+    if (canSave) {
+      try {
+        setAddReqStatus("pending");
+        dispatch(addNewPost(values));
+      } catch (error) {
+        console.error("Failed to save the post", error);
+      } finally {
+        setAddReqStatus("idle");
+      }
+    }
   };
 
   const users = useSelector(usersSelector);
