@@ -1,53 +1,70 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewPost } from './states/Posts';
-import { usersSelector } from './states/Users';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as yup from 'yup';
+import { selectPostById, updatePost } from './states/Posts';
+import { useParams, useNavigate } from 'react-router-dom';
+import { usersSelector } from './states/Users';
 import ErrorComp from './ErrorComp';
-import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
 
-const initialValues = {
-  title: '',
-  body: '',
-  userId: '',
-};
-
-const validattionSchema = yup.object({
-  title: yup.string().required('Title is required'),
-  body: yup.string().required('Body is required'),
-  userId: yup.string().required('User is required'),
-});
-
-const AddPost = () => {
-  const dispatch = useDispatch();
+const EditPost = ({ reqStatus, setReqStatus }) => {
+  const { postId } = useParams();
   const navigate = useNavigate();
-  const [addReqStatus, setAddReqStatus] = useState('idle');
+  const dispatch = useDispatch();
+
+  const post = useSelector((state) => selectPostById(state, Number(postId)));
+  const users = useSelector(usersSelector);
+
+  if (!post) {
+    return (
+      <section>
+        <h2>Post not found!</h2>
+      </section>
+    );
+  }
+
+  const initialValues = {
+    title: post?.title,
+    body: post?.body,
+    userId: Number(post?.userId),
+  };
+
+  const validattionSchema = yup.object({
+    title: yup.string().required('Title is required'),
+    body: yup.string().required('Body is required'),
+    userId: yup.string().required('User is required'),
+  });
 
   const onSubmit = (values) => {
-    const canSave = addReqStatus === 'idle';
+    const canSave = reqStatus === 'idle';
     if (canSave) {
       try {
-        setAddReqStatus('pending');
-        dispatch(addNewPost(values));
-        navigate('/');
+        setReqStatus('pending');
+        dispatch(
+          updatePost({
+            ...values,
+            userId: Number(values.userId),
+            id: post.id,
+            likesCount: post.likesCount,
+          })
+        );
+        navigate(`/post/${postId}`);
       } catch (error) {
-        console.error('Failed to save the post', error);
+        console.error('Failed to update the post', error);
       } finally {
-        setAddReqStatus('idle');
+        setReqStatus('idle');
       }
     }
   };
 
-  const users = useSelector(usersSelector);
-
   return (
-    <section className='add-new-post-area'>
+    <section className='edit-post-area'>
       <h2>Add a new post</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validattionSchema}
         onSubmit={onSubmit}
+        className='form'
       >
         <Form>
           <div>
@@ -84,7 +101,7 @@ const AddPost = () => {
             <ErrorMessage name='userId' component={ErrorComp} />
           </div>
           <button className='form-btn' type='submit'>
-            Add Post
+            Update
           </button>
         </Form>
       </Formik>
@@ -92,4 +109,4 @@ const AddPost = () => {
   );
 };
 
-export default AddPost;
+export default EditPost;

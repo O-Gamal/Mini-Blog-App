@@ -1,79 +1,321 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Roboto&display=swap');
-
-:root{
-  --body-width: 40%;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,600;0,900;1,700&display=swap');
 
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgba(204, 204, 204, 0.5);
-  
+  background-color: #f9f8f4;
 }
 
-.app{
+* {
+  box-sizing: border-box;
+  color: #181818;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.app {
   width: 100%;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
-  
+  min-height: 100vh;
 }
 
-.app-header{
-  width: var(--body-width);
-  background-color: #f5f5f5;
-  padding: 20px;
+.section {
+  width: 100%;
+  padding: 80px;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2.4rem;
+}
+
+.app-header {
+  padding: 0 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+nav {
+  width: 25%;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  text-decoration: none;
+  color: inherit;
+}
+
+nav li {
+  position: relative;
+}
+
+nav li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background-color: #181818;
+  transition: transform 0.3s ease-in-out;
+  transform: scaleX(0);
+}
+
+nav li:hover::before,
+nav li:focus::before {
+  transform: scaleX(1);
+}
+
+.logo {
+  cursor: pointer;
+  user-select: none;
+}
+
+.link {
+  text-decoration: inherit;
+}
+
+.title-area h1 {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  font-size: 4rem;
+}
+
+.posts {
+  background-color: #ffffff;
+  max-width: 70%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 15px;
+}
+
+.posts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 2rem;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.post-container {
+  padding-right: 2rem;
+}
+
+.post {
+  padding: 2rem;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+P {
   margin-top: 0;
-  border-radius:  0 0 10px 10px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  color: rgba(24, 24, 24, 0.6);
+  font-size: 1.2rem;
 }
 
-h1{
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}
+
+.section-title {
+  margin-bottom: 5rem;
+}
+
+.post-date {
+  color: rgba(24, 24, 24, 0.6);
+}
+
+.like {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 4rem;
+  cursor: pointer;
+  background-color: #f9f8f4;
+  transition: box-shadow 0.3s;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: 1px solid #181818;
+}
+
+.post-page .post {
+  box-shadow: none;
+}
+
+.like:hover {
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+.like .material-symbols-outlined {
+  font-size: 2.4rem;
+}
+
+.post-page {
+  margin-top: 3rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-page article {
+  width: 80%;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.post-page .post-meta {
+  font-size: 1.4rem;
+}
+
+.delete-post-btn {
+  font-size: 1.4rem;
+  padding: 0.2rem 1.2rem;
+}
+
+.delete-post-btn:hover {
+  background-color: red;
+  color: white;
+}
+
+.add-new-post-area,
+.edit-post-area,
+.users,
+.author-posts {
+  margin-top: 3rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+form {
+  width: 70%;
+}
+
+input,
+textarea {
+  width: 100%;
+  font-size: 1.4rem;
+  padding: 1rem 1.2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+textarea {
+  height: 30vh;
+  resize: none;
+}
+
+select {
+  font-size: 1.2rem;
+  padding: 1rem 1.2rem;
+  margin-top: 1rem;
+  margin-left: 2rem;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+.form-btn {
+  width: 25%;
+  font-size: 1.2rem;
+  padding: 1rem 1.2rem;
+  margin-top: 2rem;
+  color: #f9f8f4;
+  background-color: #181818;
+}
+
+.error {
+  color: red;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  padding: 5px 0;
+}
+
+.users ul {
+  list-style: none;
+}
+
+.users,
+.author-posts li {
+  margin-bottom: 0.5rem;
+  transition: all 0.2s;
+}
+
+.users,
+.author-posts li:hover {
+  font-size: 1.1em;
+}
+
+/* h1{
   font-weight: 900;
   color: #043430;
   font-size: 2.5rem;
   text-align: center;
-  font-family: 'Playfair Display', serif;
 }
 
-h2{
-  font-weight: 700;
-  font-family: 'Playfair Display', serif;
-}
 
-P{
-  font-weight: 400;
-}
+
 
 select{
   cursor: pointer;
 }
 
 
-section{
-  width: var(--body-width);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-}
 
-article{
-  width: 100%;
-  border-radius: 10px;
-  background-color: #043430;
-  color: white;
-  margin: 15px 0;
-  padding: 0 20px;
-  min-height: 200px;
-  box-shadow: 8px 8px rgba(9, 104, 75,0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+
+
 
 article p{
   color: rgba(204, 204, 204, 1);
@@ -106,7 +348,6 @@ article p{
 }
 
 .add-new-post-area input, textarea, select{
-  font-family: 'Roboto', sans-serif;
   padding: 10px;
   border: none;
   color: #4c5d65;
@@ -212,11 +453,8 @@ textarea{
   padding: 5px 0;
 }
 
-
-
-@media (max-width: 900px){
-  :root{
-    --body-width: 60%;
-  }
+.link{
+  text-decoration: none;
+  color: inherit;
 }
-
+ */
