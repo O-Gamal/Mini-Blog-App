@@ -7,7 +7,7 @@ const Header = () => {
     <header className='section app-header'>
       <div className='title-area'>
         <h1>
-          Your bloging platform. <span>Try it now!</span>
+          Your blogging platform. <span>Try it now!</span>
         </h1>
       </div>
     </header>
